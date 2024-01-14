@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AnimeNow.Models"
+             xmlns:views="clr-namespace:AnimeNow.Views"
+             xmlns:viewmodels="clr-namespace:AnimeNow.ViewModels"
+			 xmlns:converters="clr-namespace:AnimeNow.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:AnimeNow"
+             x:Class="AnimeNow.Views.AnimeDetailPage"
+             x:DataType="viewmodels:AnimeDetailViewModel"
+             Title="{Binding Result.Title.UserPreferred}">
+    
+    <!-- -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Favorites" Command="{Binding AddToCollectionCommand}" CommandParameter="{Binding Result}" IconImageSource="{Binding ImageFavorite}" />
+    </ContentPage.ToolbarItems>
+
+    <!-- -->
+    <ContentPage.Resources>
+        <converters:PickerDisplayConverter x:Key="PickerDisplayConverter" />
+        <converters:ElementEnabledConverter x:Key="ElementEnabledConverter" />
+    </ContentPage.Resources>
+
+    <!-- -->
+    <Page.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Gray990}" StatusBarStyle="LightContent" />
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding InitEpisodesCommand}" />
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding InitCommand}" CommandParameter="{Binding Result}" />
+    </Page.Behaviors>
+
+    <!-- -->
+    <Grid
+        ColumnDefinitions="*,*"
+        RowDefinitions="*,120">
+
+        <!-- Image and Shadow -->
+        <Image
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            Source="{Binding Result.Image}"
+            Aspect="Fill"/>
+        <Grid
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="{StaticResource Gray990}" Offset="0.0"/>
+                    <GradientStop Color="{StaticResource Transparent}" Offset="0.2"/>
+                    <GradientStop Color="{StaticResource Transparent}" Offset="0.8"/>
+                    <GradientStop Color="{StaticResource Black}" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+
+        <!-- Description -->
+        <Border
+            Grid.ColumnSpan="2"
+            StrokeShape="RoundRectangle 20"
+            BackgroundColor="{StaticResource Gray900}"
+            HeightRequest="300"
+            VerticalOptions="Start"
+            Margin="30"
+            Padding="26,20"
+            Opacity="0.8"
+            IsVisible="{Binding IsDescriptionVisible}">
+            <ScrollView>
+                <Label
+                    Text="{Binding Result.Description}"
+                    TextType="Html"/>
+            </ScrollView>
+        </Border>
+
+        <!-- Play Button -->
+        <Button
+            Grid.Row="1"
+            Text="{Binding TextPlayButton}" 
+            HorizontalOptions="Start"
+            VerticalOptions="End"
+            HeightRequest="60"
+            Margin="28"
+            Command="{Binding PlayCommand}">
+            <Button.Shadow>
+                <Shadow Opacity="0.2"/>
+            </Button.Shadow>
+            <Button.IsEnabled>
+                <MultiBinding Converter="{StaticResource ElementEnabledConverter}">
+                    <Binding Path="IsNotBusy" />
+                    <Binding Path="IsAnyEpisodesFound" />
+                </MultiBinding>
+            </Button.IsEnabled>
+        </Button>
+
+        <!-- Picker -->
+        <Border
+            Grid.Row="1"
+            Grid.Column="1"
+            StrokeShape="RoundRectangle 20"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            Margin="28"
+            Padding="16,0"
+            BackgroundColor="{StaticResource Gray200}">
+            <Border.Shadow>
+                <Shadow Opacity="0.2"/>
+            </Border.Shadow>
+
+            <!--Title on Windows is on TOP of Picker, so I had to remove it -->
+            <!--Title="{Binding Result.TotalEpisodes, StringFormat='Episodes: {0}'}"
+                TitleColor="{StaticResource Black}" -->
+            <Picker
+                ItemsSource="{Binding Episodes}"
+                ItemDisplayBinding="{Binding Converter={x:StaticResource PickerDisplayConverter}, Path='.'}"
+                SelectedItem="{Binding SelectedEpisode}"
+                Background="{StaticResource Transparent}"
+                HorizontalTextAlignment="Center">
+                <Picker.IsEnabled>
+                    <MultiBinding Converter="{StaticResource ElementEnabledConverter}">
+                        <Binding Path="IsNotBusy" />
+                        <Binding Path="IsAnyEpisodesFound" />
+                    </MultiBinding>
+                </Picker.IsEnabled>
+                <Picker.Behaviors>
+                    <toolkit:EventToCommandBehavior
+                        EventName="SelectedIndexChanged"
+                        Command="{Binding PickerSelectedIndexChangedCommand}" />
+                </Picker.Behaviors>
+            </Picker>
+
+        </Border>
+
+        <!-- ActivityIndicator Picker -->
+        <ActivityIndicator
+            Grid.Row="1"
+            Grid.Column="1"
+            IsVisible="{Binding IsBusy}"
+            IsRunning="{Binding IsBusy}"
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="CenterAndExpand">
+        </ActivityIndicator>
+
+    </Grid>
+
+</ContentPage>

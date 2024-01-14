@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AnimeNow.Models"
+             xmlns:views="clr-namespace:AnimeNow.Views"
+             xmlns:viewmodels="clr-namespace:AnimeNow.ViewModels"
+             xmlns:converters="clr-namespace:AnimeNow.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="AnimeNow.Views.AnimeAniListCollectionPage"
+             x:DataType="viewmodels:AnimeAniListCollectionViewModel"
+             Title="AniList Collection">
+
+    <!-- Behaviors -->
+    <Page.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="#111111" StatusBarStyle="LightContent" />
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding GetAnimeCommand}" />
+        <!--<toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding GetRecentWatchedCommand}" />-->
+    </Page.Behaviors>
+
+    <!-- Content -->
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- Watching Section -->
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="200"/>
+                <!-- Planning Section -->
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="200"/>
+                <!-- Completed Section -->
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="200"/>
+                <!-- Rest -->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Watching Section Header -->
+            <Label
+                TextColor="White"
+                Background="#80121212"
+                VerticalOptions="End"
+                Margin="24,10"
+                IsVisible="{Binding IsNotBusy}">
+                Watching
+            </Label>
+            <!-- Watching Section Content -->
+            <CollectionView
+                Grid.Row="1"
+                ItemsSource="{Binding Watching}"
+                ItemsLayout="HorizontalList"
+                IsVisible="{Binding IsNotBusy}"
+                Margin="10,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:AnimeAniListCollection_Entry">
+
+                        <!-- Content -->
+                        <Border
+                            Margin="10"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 22">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
+                            </Border.GestureRecognizers>
+
+                            <Grid WidthRequest="130">
+                                <Image
+                                    Source="{Binding Media.CoverImage.Medium}"
+                                    Aspect="AspectFill" />
+
+                                <Grid Background="#9E000000">
+                                    <Label
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap"
+                                        HorizontalTextAlignment="Center"
+                                        WidthRequest="140"
+                                        Padding="20">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} / {1}">
+                                                <Binding Path="Progress" />
+                                                <Binding Path="Media.Episodes" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                    <Label
+                                        Text="{Binding Media.Title.UserPreferred}"
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap"
+                                        VerticalOptions="End"
+                                        HorizontalTextAlignment="Center"
+                                        WidthRequest="140"
+                                        Padding="20"/>
+                                </Grid>
+
+                            </Grid>
+
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <!-- EmptyView -->
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label Text="Error Loading 'Watching' Anime" TextColor="White" Margin="10,25,10,10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                            <Label Text="Are You Logged in?" TextColor="White" FontAttributes="Italic" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+
+            </CollectionView>
+
+            <!-- Planning Section Header -->
+            <Label
+                Grid.Row="2"
+                TextColor="White"
+                Background="#80121212"
+                VerticalOptions="End"
+                Margin="24,10"
+                IsVisible="{Binding IsNotBusy}">
+                Planning
+            </Label>
+            <!-- Planning Section Content -->
+            <CollectionView
+                Grid.Row="3"
+                ItemsSource="{Binding Planning}"
+                ItemsLayout="HorizontalList"
+                IsVisible="{Binding IsNotBusy}"
+                Margin="10,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:AnimeAniListCollection_Entry">
+
+                        <!-- Content -->
+                        <Border
+                            Margin="10"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 22">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
+                            </Border.GestureRecognizers>
+
+                            <Grid WidthRequest="130">
+                                <Image
+                                    Source="{Binding Media.CoverImage.Medium}"
+                                    Aspect="AspectFill" />
+
+                                <Grid Background="#9E000000">
+                                    <Label
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap"
+                                        HorizontalTextAlignment="Center"
+                                        WidthRequest="140"
+                                        Padding="20">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} / {1}">
+                                                <Binding Path="Progress" />
+                                                <Binding Path="Media.Episodes" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                    <Label
+                                        Text="{Binding Media.Title.UserPreferred}"
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap"
+                                        VerticalOptions="End"
+                                        HorizontalTextAlignment="Center"
+                                        WidthRequest="140"
+                                        Padding="20"/>
+                                </Grid>
+
+                            </Grid>
+
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <!-- EmptyView -->
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label Text="Error Loading 'Planning' Anime" TextColor="White" Margin="10,25,10,10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                            <Label Text="Are You Logged in?" TextColor="White" FontAttributes="Italic" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+
+            </CollectionView>
+
+            <!-- Completed Section Header -->
+            <Label
+                Grid.Row="4"
+                TextColor="White"
+                Background="#80121212"
+                VerticalOptions="End"
+                Margin="24,10"
+                IsVisible="{Binding IsNotBusy}">
+                Completed
+            </Label>
+            <!-- Completed Section Content -->
+            <CollectionView
+                Grid.Row="5"
+                ItemsSource="{Binding Completed}"
+                ItemsLayout="HorizontalList"
+                IsVisible="{Binding IsNotBusy}"
+                Margin="10,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:AnimeAniListCollection_Entry">
+
+                        <!-- Content -->
+                        <Border
+                            Margin="10"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 22">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
+                            </Border.GestureRecognizers>
+
+                            <Grid WidthRequest="130">
+                                <Image
+                                    Source="{Binding Media.CoverImage.Medium}"
+                                    Aspect="AspectFill" />
+
+                                <Grid Background="#9E000000">
+                                    <Label
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap"
+                                        HorizontalTextAlignment="Center"
+                                        WidthRequest="140"
+                                        Padding="20">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} / {1}">
+                                                <Binding Path="Progress" />
+                                                <Binding Path="Media.Episodes" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                    <Label
+                                        Text="{Binding Media.Title.UserPreferred}"
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap"
+                                        VerticalOptions="End"
+                                        HorizontalTextAlignment="Center"
+                                        WidthRequest="140"
+                                        Padding="20"/>
+                                </Grid>
+
+                            </Grid>
+
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <!-- EmptyView -->
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label Text="Error Loading 'Planning' Anime" TextColor="White" Margin="10,25,10,10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                            <Label Text="Are You Logged in?" TextColor="White" FontAttributes="Italic" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+
+            </CollectionView>
+
+
+            <!-- Activity Indicator -->
+            <ActivityIndicator
+                Grid.RowSpan="20"
+                Grid.ColumnSpan="20"
+                IsVisible="{Binding IsBusy}"
+                IsRunning="{Binding IsBusy}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="CenterAndExpand" />
+            
+        </Grid>
+        
+    </ScrollView>
+    
+</ContentPage>

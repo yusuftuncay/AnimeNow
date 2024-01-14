@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AnimeNow.Models"
+             xmlns:views="clr-namespace:AnimeNow.Views"
+             xmlns:viewmodels="clr-namespace:AnimeNow.ViewModels"
+             xmlns:converters="clr-namespace:AnimeNow.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="AnimeNow.Views.AnimeHomePage"
+             x:DataType="viewmodels:AnimeHomeViewModel"
+             Shell.NavBarIsVisible="False">
+
+    <!-- Behaviors -->
+    <Page.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Gray990}" StatusBarStyle="LightContent" />
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding GetAnimeCommand}" />
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding GetRecentWatchedCommand}" />
+    </Page.Behaviors>
+
+    <!-- ScrollView -->
+    <ScrollView>
+
+        <!-- Grid -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- RecentWatched  -->
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <!-- PopularAnime -->
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="200"></RowDefinition>
+                <!-- TrendingAnime -->
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="200"></RowDefinition>
+                <!-- RecentEpisodes -->
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="120"></RowDefinition>
+                <!-- Rest -->
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!-- RecentWatched Header -->
+            <Label
+                Grid.Row="0"
+                HeightRequest="{Binding HeightRecentWatchedTitle}"
+                Margin="{Binding MarginRecentWatchedTitle}"
+                TextColor="White"
+                Background="#80121212"
+                VerticalOptions="End">
+                Recent Watched
+            </Label>
+
+            <!-- RecentWatched Content -->
+            <CollectionView
+                Grid.Row="1"
+                ItemsLayout="HorizontalList"
+                ItemsSource="{Binding RecentWatched}"
+                HeightRequest="{Binding HeightRecentWatchedContent}"
+                Margin="{Binding MarginRecentWatchedContent}"
+                IsEnabled="{Binding IsNotBusy}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:AniListAnimeDetail_Episode">
+
+                        <!-- Content -->
+                        <Border
+                            Margin="10"
+                            WidthRequest="220"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 22">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding PlayRecentWatchedAnimeCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
+                            </Border.GestureRecognizers>
+
+                            <Grid>
+                                <!-- Image -->
+                                <Image Source="{Binding Image}" Aspect="AspectFill" />
+
+                                <Grid>
+                                    <Grid.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#00000000" Offset="0.0"/>
+                                            <GradientStop Color="#CC000000" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+
+                                    <!-- Label -->
+                                    <Label
+                                        Text="{Binding Number, StringFormat='Episode {0}'}"
+                                        TextColor="White"
+                                        VerticalOptions="End"
+                                        HorizontalTextAlignment="Center"
+                                        WidthRequest="140"
+                                        Padding="20"/>
+                                </Grid>
+
+                                <!-- ImageButton -->
+                                <ImageButton
+                                    Source="close.png"
+                                    HeightRequest="28"
+                                    WidthRequest="28"
+                                    Margin="12"
+                                    Padding="0"
+                                    VerticalOptions="Start"
+                                    HorizontalOptions="Start"
+                                    Opacity="0.38"
+                                    Command="{Binding DeleteEpisodeFromRecentWatchedCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                    CommandParameter="{Binding Id}">
+                                    <ImageButton.Shadow>
+                                        <Shadow />
+                                    </ImageButton.Shadow>
+                                </ImageButton>
+                            </Grid>
+
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Popular Header -->
+            <Label
+                Grid.Row="2"
+                TextColor="White"
+                Background="#80121212"
+                VerticalOptions="End"
+                Margin="24,10"
+                IsVisible="{Binding IsNotBusy}">
+                Popular
+            </Label>
+            <!-- Popular Content -->
+            <CollectionView
+                Grid.Row="3"
+                ItemsSource="{Binding Popular}"
+                Margin="10,0"
+                ItemsLayout="HorizontalList"
+                IsVisible="{Binding IsNotBusy}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:AniListAnime_Result">
+
+                        <!-- Content -->
+                        <Border
+                            Margin="10"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 22">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
+                            </Border.GestureRecognizers>
+
+                            <Grid WidthRequest="130">
+                                <!-- Image -->
+                                <Image Source="{Binding Image}" Aspect="AspectFill" />
+
+                                <Grid>
+                                    <Grid.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#00000000" Offset="0.0"/>
+                                            <GradientStop Color="#CC000000" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+
+                                    <!-- Label -->
+                                    <Label
+                                        Text="{Binding Title.UserPreferred}"
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap"
+                                        VerticalOptions="End"
+                                        HorizontalTextAlignment="Center"
+                                        WidthRequest="140"
+                                        Padding="20"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <!-- EmptyView -->
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label Text="Error Loading Popular Anime" TextColor="White" Margin="10,25,10,10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                            <Label Text="Try Changing the API?" TextColor="White" FontAttributes="Italic" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+            <!-- Trending Header -->
+            <Label
+                Grid.Row="4"
+                TextColor="White"
+                Background="#80121212"
+                VerticalOptions="End"
+                Margin="24,10"
+                IsVisible="{Binding IsNotBusy}">
+                Trending
+            </Label>
+            <!-- Trending Content -->
+            <CollectionView
+                Grid.Row="5"
+                ItemsSource="{Binding Trending}"
+                ItemsLayout="HorizontalList"
+                IsVisible="{Binding IsNotBusy}"
+                Margin="10,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:AniListAnime_Result">
+
+                        <!-- Content -->
+                        <Border
+                            Margin="10"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 22">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
+                            </Border.GestureRecognizers>
+
+                            <Grid WidthRequest="130">
+                                <!-- Image -->
+                                <Image Source="{Binding Image}" Aspect="AspectFill" />
+
+                                <Grid>
+                                    <Grid.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#00000000" Offset="0.0"/>
+                                            <GradientStop Color="#CC000000" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+
+                                    <!-- Label -->
+                                    <Label
+                                        Text="{Binding Title.UserPreferred}"
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap"
+                                        VerticalOptions="End"
+                                        HorizontalTextAlignment="Center"
+                                        WidthRequest="140"
+                                        Padding="20"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <!-- EmptyView -->
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label Text="Error Loading Trending Anime" TextColor="White" Margin="10,25,10,10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                            <Label Text="Try Changing the API?" TextColor="White" FontAttributes="Italic" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+            <!-- RecentEpisodes Header -->
+            <Label
+                Grid.Row="6"
+                TextColor="White"
+                Background="#80121212"
+                VerticalOptions="End"
+                Margin="24,10"
+                IsVisible="{Binding IsNotBusy}">
+                Recently Released Episodes
+            </Label>
+            <!-- RecentEpisodes Content -->
+            <CollectionView
+                Grid.Row="7"
+                ItemsSource="{Binding RecentEpisodes}"
+                IsVisible="{Binding IsNotBusy}"
+                Margin="10,0"
+                ItemsLayout="HorizontalList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:AniListAnimeRecentEpisodes_Result">
+
+                        <!-- Content -->
+                        <Border
+                            Margin="10"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 22">
+
+                            <Grid WidthRequest="280">
+                                <!-- Image -->
+                                <Image Source="{Binding Image}" Aspect="AspectFill" />
+
+                                <Grid>
+                                    <Grid.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#00000000" Offset="0.0"/>
+                                            <GradientStop Color="#CC000000" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+
+                                    <!-- Label -->
+                                    <Label
+                                        Text="{Binding Title.English}"
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap"
+                                        VerticalOptions="Start"
+                                        HorizontalTextAlignment="Center"
+                                        Padding="12"
+                                        Margin="0"/>
+                                    <Label Text="{Binding EpisodeTitle}"
+                                        TextColor="White"
+                                        TextDecorations="Underline"
+                                        LineBreakMode="WordWrap"
+                                        VerticalOptions="End"
+                                        HorizontalTextAlignment="Center"
+                                        Padding="12"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <!-- EmptyView -->
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label Text="Error Loading Recent Episodes" TextColor="White" Margin="10,25,10,10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                            <Label Text="Try Changing the API?" TextColor="White" FontAttributes="Italic" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+            <!-- ActivityIndicator -->
+            <ActivityIndicator
+                Grid.RowSpan="20"
+                Grid.ColumnSpan="20"
+                IsVisible="{Binding IsBusy}"
+                IsRunning="{Binding IsBusy}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="CenterAndExpand">
+            </ActivityIndicator>
+        </Grid>
+
+    </ScrollView>
+
+</ContentPage>

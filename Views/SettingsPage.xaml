@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AnimeNow.Models"
+             xmlns:views="clr-namespace:AnimeNow.Views"
+             xmlns:viewmodels="clr-namespace:AnimeNow.ViewModels"
+             xmlns:converters="clr-namespace:AnimeNow.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="AnimeNow.Views.SettingsPage"
+             x:DataType="viewmodels:SettingsViewModel"
+             Shell.NavBarIsVisible="False">
+
+    <!-- Resources -->
+    <ContentPage.Resources>
+        <converters:PickerDisplayConverter x:Key="PickerDisplayConverter" />
+    </ContentPage.Resources>
+
+    <!-- Behaviors -->
+    <Page.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding InitCommand}" CommandParameter="{Binding Source={x:Reference EntryHostname}}" />
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding InitWebViewCommand}" CommandParameter="{Binding Source={x:Reference WebView}}" />
+    </Page.Behaviors>
+
+    <!-- Grid -->
+    <Grid>
+
+        <!-- WebView Section -->
+        <WebView x:Name="WebView" IsVisible="{Binding IsAniListLoginPageVisible}">
+            <WebView.Behaviors>
+                <toolkit:EventToCommandBehavior EventName="Navigated" Command="{Binding WebViewNavigatedCommand}" />
+            </WebView.Behaviors>
+        </WebView>
+
+        <!-- Close Button -->
+        <ImageButton
+            Source="close.png"
+            HeightRequest="40"
+            WidthRequest="40"
+            VerticalOptions="Start"
+            HorizontalOptions="Start"
+            Margin="20"
+            Padding="0"
+            Opacity="0.4"
+            Command="{Binding CloseWebViewCommand}"
+            IsVisible="{Binding IsAniListLoginPageVisible}">
+            <ImageButton.Shadow>
+                <Shadow />
+            </ImageButton.Shadow>
+        </ImageButton>
+
+        <!-- SettingsPage Section -->
+        <Grid RowDefinitions="120,120,240,*" Margin="6,16" IsVisible="{Binding IsSettingsPageVisible}">
+            <!-- Hostname Section -->
+            <Grid Grid.Row="0" Padding="14,0" Margin="10" RowDefinitions="40,50">
+                <!-- 1st Row -->
+                <Label TextColor="{StaticResource Gray400}" VerticalOptions="Center">Hostname</Label>
+
+                <!-- 2nd Row -->
+                <HorizontalStackLayout Grid.Row="1">
+                    <!-- Busy Indicator -->
+                    <Grid WidthRequest="100" IsVisible="{Binding IsBusy}" Margin="0,0,20,0">
+                        <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Grid>
+
+                    <!-- HostNamePicker -->
+                    <Picker x:Name="HostNamePicker" ItemsSource="{Binding Hostnames}" ItemDisplayBinding="{Binding Converter={x:StaticResource PickerDisplayConverter}, Path='.'}" IsVisible="{Binding IsNotBusy}" SelectedItem="{Binding SelectedHost}" TitleColor="{StaticResource White}" TextColor="{StaticResource White}" WidthRequest="100" HorizontalOptions="End" Margin="0,0,20,0" BackgroundColor="{StaticResource Gray990}">
+                        <Picker.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding SelectedIndexChangedCommand}" CommandParameter="{Binding Source={x:Reference HostNamePicker}, Path=SelectedItem}" />
+                        </Picker.Behaviors>
+                    </Picker>
+
+                    <!-- EntryHostname -->
+                    <Entry x:Name="EntryHostname" IsEnabled="{Binding HostnameEntryEnabled}" TextColor="White" WidthRequest="240" HorizontalOptions="Start" Text="{Binding Hostname}" />
+                </HorizontalStackLayout>
+
+                <!-- Set Hostname Button -->
+                <Button Grid.Row="1" IsVisible="{Binding HostnameEntryEnabled}" Text="Set" HorizontalOptions="End" Padding="14,0" HeightRequest="28" Command="{Binding SetHostnameCommand}" CommandParameter="{Binding Source={x:Reference EntryHostname}, Path=Text}" />
+            </Grid>
+
+            <!-- Line -->
+            <BoxView Grid.Row="0" Color="{StaticResource Gray900}" HeightRequest="1" HorizontalOptions="FillAndExpand" VerticalOptions="End" />
+
+            <!-- Provider Section -->
+            <Grid Grid.Row="1" Padding="14,0" Margin="10" RowDefinitions="40,50">
+                <!-- 1st Row -->
+                <Label TextColor="{StaticResource Gray400}" VerticalOptions="Center">Providers</Label>
+
+                <!-- ProviderPicker -->
+                <Picker x:Name="ProviderPicker" Grid.Row="1" Background="{StaticResource Gray990}" ItemsSource="{Binding Providers}" SelectedItem="{Binding Provider}" TitleColor="{StaticResource White}" TextColor="{StaticResource White}" HorizontalOptions="Start" />
+
+                <!-- Set Provider Button -->
+                <Button Grid.Row="1" Text="Set" HorizontalOptions="End" Padding="14,0" HeightRequest="28" Command="{Binding SetProviderCommand}" CommandParameter="{Binding Source={x:Reference ProviderPicker}, Path=SelectedItem}" />
+            </Grid>
+
+            <!-- Line -->
+            <BoxView Grid.Row="1" Color="{StaticResource Gray900}" HeightRequest="1" HorizontalOptions="FillAndExpand" VerticalOptions="End" />
+
+            <!-- Anilist Section -->
+            <Grid Grid.Row="2" Padding="14,0" Margin="10" ColumnDefinitions="*,*,*" RowDefinitions="40,100,60">
+                <!-- 1st Row -->
+                <Label TextColor="{StaticResource Gray400}" VerticalOptions="Center">AniList</Label>
+
+                <!-- AniListProfile -->
+                <Border Grid.ColumnSpan="3" Grid.Row="1" StrokeShape="RoundRectangle 20" Opacity="0.8" BackgroundColor="{Binding AniListProfile.Options.ProfileColor}">
+                    <Grid ColumnDefinitions="*,*,*">
+
+                        <!-- Avatar Image -->
+                        <Image Source="{Binding AniListProfile.Avatar.Medium}" VerticalOptions="Center" HorizontalOptions="Start" HeightRequest="70" WidthRequest="70" Margin="15">
+                            <Image.Shadow>
+                                <Shadow />
+                            </Image.Shadow>
+                        </Image>
+
+                        <!-- UserName Label -->
+                        <Label Grid.Column="1" Text="{Binding AniListProfile.Name}" VerticalOptions="Center" HorizontalOptions="Start" TextColor="{StaticResource Gray400}" />
+
+                        <!-- OpenProfile Button -->
+                        <ImageButton Grid.Column="2" Source="open_link.png" HeightRequest="30" HorizontalOptions="End" Margin="40" Command="{Binding OpenProfileCommand}" IsVisible="{Binding IsLoggedIn}">
+                        </ImageButton>
+
+                    </Grid>
+                </Border>
+
+                <!-- AniList Login/Logout Button -->
+                <Button x:Name="AniListButton" Grid.Column="1" Grid.Row="2" Text="{Binding AniListButtonText}" Padding="16,0" HeightRequest="28" WidthRequest="100" HorizontalOptions="Center" VerticalOptions="End" Command="{Binding AniListLoginCommand}" CommandParameter="{Binding Source={x:Reference AniListButton}, Path=Text}">
+                    <Button.Shadow>
+                        <Shadow />
+                    </Button.Shadow>
+                </Button>
+            </Grid>
+
+            <!-- Line -->
+            <BoxView Grid.Row="2" Color="{StaticResource Gray900}" HeightRequest="1" HorizontalOptions="FillAndExpand" VerticalOptions="End" />
+
+            <!-- Version Number & "Clear" Buttons Section -->
+            <Grid Grid.Row="20" RowDefinitions="*,*,*" ColumnDefinitions="*,*,*" VerticalOptions="End" Padding="14,0">
+                <!-- Version Number Label -->
+                <Label Grid.ColumnSpan="3" Text="{Binding VersionNumber}" TextColor="{StaticResource Gray400}" VerticalOptions="Center" HorizontalOptions="Center" Margin="10" />
+
+                <!-- Clear Cache Label -->
+                <Label Grid.Row="1" Grid.ColumnSpan="3" TextColor="{StaticResource Gray400}" VerticalOptions="Center" HorizontalOptions="Center" Margin="10">Clear Cache</Label>
+
+                <!-- "Clear" Buttons -->
+                <Button Grid.Column="0" Grid.Row="2" Text="Preferences" VerticalOptions="Center" Padding="14,0" Margin="10" HeightRequest="28" Command="{Binding ClearPreferencesCommand}" />
+                <Button Grid.Column="1" Grid.Row="2" Text="Favorites" VerticalOptions="Center" Padding="14,0" Margin="10" HeightRequest="28" Command="{Binding ClearFavoritesCommand}" />
+                <Button Grid.Column="2" Grid.Row="2" Text="Recents" VerticalOptions="Center" Padding="14,0" Margin="10" HeightRequest="28" Command="{Binding ClearRecentWatchedCommand}" />
+            </Grid>
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

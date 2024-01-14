@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AnimeNow.Models"
+             xmlns:views="clr-namespace:AnimeNow.Views"
+             xmlns:viewmodels="clr-namespace:AnimeNow.ViewModels"
+             xmlns:converters="clr-namespace:AnimeNow.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="AnimeNow.Views.AnimeSearchPage"
+             x:DataType="viewmodels:AnimeSearchViewModel"
+             Shell.NavBarIsVisible="False">
+
+    <!-- Behaviors -->
+    <Page.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Gray990}" StatusBarStyle="LightContent" />
+    </Page.Behaviors>
+
+    <!-- Grid -->
+    <Grid RowDefinitions="80,*">
+
+        <!-- SearchBar -->
+        <SearchBar
+            x:Name="SearchBar"
+            Grid.Column="1"
+            TextColor="White"
+            CancelButtonColor="White"
+            PlaceholderColor="white"
+            Placeholder="Search Anime"
+            Margin="12"
+            HorizontalOptions="Center"
+            SearchCommand="{Binding GetSearchResultCommand}"
+            SearchCommandParameter="{Binding Source={x:Reference SearchBar}, Path=Text}">
+        </SearchBar>
+
+        <!-- Search Result -->
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding SearchResult}"
+            Margin="10,0"
+            ItemsLayout="VerticalGrid, 2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:AniListAnime_Result">
+
+                    <Border
+                        Margin="10"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 22">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding AnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeSearchViewModel}}}"
+                                CommandParameter="{Binding .}"
+                                NumberOfTapsRequired="1" />
+                        </Border.GestureRecognizers>
+                        <Grid HeightRequest="240">
+
+                            <Image Source="{Binding Image}"
+                                   Aspect="AspectFill">
+                                <Image.Shadow>
+                                    <Shadow />
+                                </Image.Shadow>
+                            </Image>
+
+                            <Grid>
+                                <Grid.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#00000000" Offset="0.0"/>
+                                        <GradientStop Color="#CC000000" Offset="1.0"/>
+                                    </LinearGradientBrush>
+                                </Grid.Background>
+                                <Label
+                                    Text="{Binding Title.UserPreferred}"
+                                    TextColor="White"
+                                    LineBreakMode="WordWrap"
+                                    VerticalOptions="End"
+                                    HorizontalTextAlignment="Center"
+                                    WidthRequest="140"
+                                    Padding="20"/>
+                            </Grid>
+
+                        </Grid>
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- ActivityIndicator -->
+        <ActivityIndicator
+            IsVisible="{Binding IsBusy}"
+            IsRunning="{Binding IsBusy}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="CenterAndExpand"
+            Grid.RowSpan="2">
+        </ActivityIndicator>
+    </Grid>
+
+</ContentPage>

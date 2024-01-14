@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AnimeNow.Models"
+             xmlns:views="clr-namespace:AnimeNow.Views"
+             xmlns:viewmodels="clr-namespace:AnimeNow.ViewModels"
+             xmlns:converters="clr-namespace:AnimeNow.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="AnimeNow.Views.AnimeMediaPage"
+             x:DataType="viewmodels:AnimeMediaViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+
+    <!-- Behaviors -->
+    <Page.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded"  Command="{Binding InitPlayerCommand}" CommandParameter="{Binding Source={x:Reference MediaElement}}"/>
+        <toolkit:EventToCommandBehavior EventName="Unloaded" Command="{Binding SaveAndCleanCommand}"/>
+    </Page.Behaviors>
+
+    <!-- Hide Back Button on Windows -->
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+    </Shell.BackButtonBehavior>
+
+    <!-- Grid -->
+    <Grid ColumnDefinitions="200,*,200">
+
+        <!-- Media Element -->
+        <toolkit:MediaElement
+            x:Name="MediaElement"
+            Grid.ColumnSpan="20"
+            Source="{Binding Link}"
+            ShouldAutoPlay="True"
+            ShouldShowPlaybackControls="True"
+            ShouldKeepScreenOn="True">
+            <toolkit:MediaElement.Behaviors>
+                <toolkit:EventToCommandBehavior EventName="StateChanged" Command="{Binding StateChangedCommand}"/>
+                <toolkit:EventToCommandBehavior EventName="PositionChanged" Command="{Binding PositionChangedCommand}"/>
+            </toolkit:MediaElement.Behaviors>
+        </toolkit:MediaElement>
+
+        <!-- Close Button -->
+        <ImageButton
+            Source="close.png"
+            HeightRequest="40"
+            WidthRequest="40"
+            VerticalOptions="Start"
+            HorizontalOptions="Start"
+            Margin="20"
+            Padding="0"
+            Opacity="0.08"
+            Command="{Binding GoBackCommand}">
+            <ImageButton.Shadow>
+                <Shadow />
+            </ImageButton.Shadow>
+        </ImageButton>
+
+        <!-- Episode Title -->
+        <Label
+            Text="{Binding SelectedEpisode.Title}"
+            TextColor="White"
+            Grid.Column="1"
+            HeightRequest="40"
+            VerticalOptions="Start"
+            HorizontalOptions="Center"
+            Margin="32"
+            Padding="0"
+            Opacity="0.8"/>
+
+        <!-- Next Episode Button -->
+        <Button
+            Grid.Column="2"
+            Text="Next Episode"
+            TextColor="White"
+            HeightRequest="40"
+            WidthRequest="120"
+            VerticalOptions="Start"
+            HorizontalOptions="End"
+            Margin="20"
+            Padding="0"
+            Opacity="0.6"
+            IsVisible="{Binding IsWatched92Percent}"
+            IsEnabled="{Binding IsNotBusy}"
+            Command="{Binding NextEpisodeCommand}">
+            <Button.Shadow>
+                <Shadow />
+            </Button.Shadow>
+        </Button>
+
+        <!-- ActivityIndicator -->
+        <ActivityIndicator
+            Grid.RowSpan="20"
+            Grid.ColumnSpan="20"
+            IsVisible="{Binding IsBusy}"
+            IsRunning="{Binding IsBusy}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="CenterAndExpand">
+        </ActivityIndicator>
+
+    </Grid>
+
+</ContentPage>
