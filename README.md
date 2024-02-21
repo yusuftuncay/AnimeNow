@@ -10,9 +10,10 @@ AnimeNow is an app that allows users to enjoy their favorite anime. With recomme
   - Description
   - Available episodes
   - Play button
+  - Favorite button (adds an Anime to your local collection)
 - Search Page
 - Collection Page:
-  - Library to save your anime in your personal collection
+  - Local library to save your anime in your personal collection
   - AniList section that shows your progress and saved Anime
 - Settings Page:
   - Provider Switching
