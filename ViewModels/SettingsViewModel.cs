@@ -85,13 +85,23 @@ namespace AnimeNow.ViewModels
                 Hostnames.Add(new Hostname { Key = "Host 1", Value = "https://api.consumet.org" });
                 Hostnames.Add(new Hostname { Key = "Host 2", Value = "https://c.delusionz.xyz" });
                 Hostnames.Add(new Hostname { Key = "Host 3", Value = "https://march-api1.vercel.app" });
-                Hostnames.Add(new Hostname { Key = "Host 4", Value = "https://a.tuncay.be" });
+                Hostnames.Add(new Hostname { Key = "Host 4", Value = "https://vercel.tuncay.be" });
                 Hostnames.Add(new Hostname { Key = "Custom", Value = "" });
 
-                // SelectedHost for Picker
-                SelectedHost = Hostnames.Where(x => x.Value == AnimePreferencesService.Get("hostname")).First();
-                // Hostname Entry
-                Hostname = Hostnames.Where(x => x.Value == AnimePreferencesService.Get("hostname")).Select(x => x.Value).First();
+                // Preset Hostname
+                if (Hostnames.Where(x => x.Value == AnimePreferencesService.Get("hostname")).Any())
+                {
+                    HostnameEntryEnabled = false;
+                    SelectedHost = Hostnames.Where(x => x.Value == AnimePreferencesService.Get("hostname")).First();
+                    Hostname = Hostnames.Where(x => x.Value == AnimePreferencesService.Get("hostname")).Select(x => x.Value).First();
+                }
+                else // Custom Hostname
+                {
+                    HostnameEntryEnabled = true;
+                    SelectedHost = Hostnames.Where(x => x.Value == "").First();
+                    Hostname = AnimePreferencesService.Get("hostname");
+                }
+
                 // Provider
                 Provider = AnimePreferencesService.Get("provider");
                 // Token
