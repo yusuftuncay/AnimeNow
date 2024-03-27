@@ -18,7 +18,7 @@ namespace AnimeNow.ViewModels
         [ObservableProperty]
         private ObservableCollection<AnimeHome_Result> popular = [];
         [ObservableProperty]
-        private ObservableCollection<AnimeDetail_Episode> recentWatched = [];
+        private ObservableCollection<AnimeEpisode> recentWatched = [];
         [ObservableProperty]
         private ObservableCollection<AnimeRecentEpisodes_Result> recentEpisodes = [];
 
@@ -142,7 +142,7 @@ namespace AnimeNow.ViewModels
                         string json = File.ReadAllText(filePath);
 
                         // Deserialize the JSON data to AniListAnime_Result object
-                        AnimeDetail_Episode file = JsonConvert.DeserializeObject<AnimeDetail_Episode>(json)!;
+                        AnimeEpisode file = JsonConvert.DeserializeObject<AnimeEpisode>(json)!;
 
                         // Add the favorite to the collection
                         if (file != null)
@@ -161,7 +161,7 @@ namespace AnimeNow.ViewModels
             try
             {
                 // Get info
-                AnimeDetail_Episode episode = RecentWatched.Where(x => x.Id == episodeId).FirstOrDefault()!;
+                AnimeEpisode episode = RecentWatched.Where(x => x.Id == episodeId).FirstOrDefault()!;
 
                 // Alert
                 bool answer = await Shell.Current.CurrentPage.DisplayAlert("", "Delete this episode?", "Yes", "No");
@@ -202,7 +202,7 @@ namespace AnimeNow.ViewModels
             await NavigationService.GoToAsync(nameof(AnimeDetailPage), true, "Result", result);
         }
         [RelayCommand]
-        private async Task PlayRecentWatchedAnimeAsync(AnimeDetail_Episode selectedEpisode)
+        private async Task PlayRecentWatchedAnimeAsync(AnimeEpisode selectedEpisode)
         {
             await NavigationService.GoToAsync(nameof(AnimeMediaPage), false, "SelectedEpisode", selectedEpisode);
         }

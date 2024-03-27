@@ -23,7 +23,7 @@
     </Shell.BackButtonBehavior>
 
     <!-- Grid -->
-    <Grid ColumnDefinitions="200,*,200">
+    <Grid ColumnDefinitions="100,*,200">
 
         <!-- Media Element -->
         <toolkit:MediaElement

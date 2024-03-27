@@ -25,8 +25,6 @@ namespace AnimeNow.ViewModels
         private ObservableCollection<AnimeMedia_Source> sources = [];
 
         private readonly AnimeMediaService AnimeMediaService = new();
-        private readonly AnimeDetailService AnimeDetailService = new();
-        private readonly AnimeRecentWatchedService AnimeRecentWatchedService = new();
 
         [ObservableProperty]
         private string link = "";
@@ -34,9 +32,6 @@ namespace AnimeNow.ViewModels
         private MediaElement mediaElement = new();
         [ObservableProperty]
         private bool isWatched92Percent;
-        
-        //
-        private static readonly string AniListURL = "https://graphql.anilist.co";
 
         // Element IsEnabled
         [ObservableProperty]
@@ -60,7 +55,7 @@ namespace AnimeNow.ViewModels
                 // GetEpisodeInfo
                 Headers = await AnimeMediaService.LoadHeaderAsync(SelectedEpisode.Id);
                 Sources = new(await AnimeMediaService.LoadSourceAsync(SelectedEpisode.Id));
-                Episodes = new(await AnimeDetailService.GetEpisodesAsync(SelectedEpisode.Id));
+                Episodes = new(await AnimeMediaService.LoadEpisodesAsync(AnimePreferencesService.Get("selected-anime-id")));
 
                 // Set Default Quality
                 var sources = Sources.Where(x => x.Quality == "default").Select(x => x.Url).FirstOrDefault();
@@ -68,12 +63,11 @@ namespace AnimeNow.ViewModels
                     Link = sources;
 
 #if WINDOWS
-                // Get Volume
+                // Set Volume
                 MediaElement.Volume = Convert.ToDouble(AnimePreferencesService.Get("volume"));
 #endif
 
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
@@ -97,7 +91,7 @@ namespace AnimeNow.ViewModels
 
 #if WINDOWS
             // Set Volume
-            AnimePreferencesService.Set("volume", Convert.ToString(MediaElement.Volume)); ;
+            AnimePreferencesService.Set("volume", Convert.ToString(MediaElement.Volume));
 #endif
 
             // Dispose
@@ -129,7 +123,7 @@ namespace AnimeNow.ViewModels
                 Sources = new(await AnimeMediaService.LoadSourceAsync(nextEpisodeId));
 
                 // Get Episode Info
-                Episodes = new(await AnimeDetailService.GetEpisodesAsync(AnimePreferencesService.Get("selected-anime-id")));
+                Episodes = new(await AnimeMediaService.LoadEpisodesAsync(AnimePreferencesService.Get("selected-anime-id")));
                 SelectedEpisode = Episodes.Where(x => x.Id == nextEpisodeId).FirstOrDefault();
 
                 // Set Quality

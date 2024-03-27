@@ -1,5 +1,6 @@
 ﻿using AnimeNow.Models;
 using System.Diagnostics;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace AnimeNow.Services.Anime
@@ -8,9 +9,10 @@ namespace AnimeNow.Services.Anime
     {
         //
         private readonly HttpClient httpClient = new();
+        private string provider = AnimePreferencesService.Get("provider");
         private string hostname = AnimePreferencesService.Get("hostname");
 
-        //
+        #region Episodes
         public async Task<AnimeMedia_Header> LoadHeaderAsync(string id)
         {
             try
@@ -68,5 +70,21 @@ namespace AnimeNow.Services.Anime
                 throw new Exception(ex.Message);
             }
         }
+        #endregion
+
+        #region Episode
+        public async Task<List<AnimeEpisode>> LoadEpisodesAsync(string id)
+        {
+            try
+            {
+                return await httpClient.GetFromJsonAsync<List<AnimeEpisode>>($"{hostname}/meta/anilist/episodes/{id}?provider={provider.ToLower()}");
+
+            } catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
     }
 }

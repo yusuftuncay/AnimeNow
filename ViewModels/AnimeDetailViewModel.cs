@@ -60,7 +60,7 @@ namespace AnimeNow.ViewModels
                 if (Episodes.Count != 0)
                     return;
 
-                Episodes = new(await AnimeDetailService.GetEpisodesAsync(Result.Id));
+                Episodes = new(await AnimeDetailService.LoadEpisodesAsync(Result.Id));
 
                 if (Episodes.Count == 0)
                 {
@@ -68,7 +68,9 @@ namespace AnimeNow.ViewModels
                     IsAnyEpisodesFound = false;
                 }
                 else
+                {
                     IsAnyEpisodesFound = true;
+                }
 
                 // Play Button
                 int episodeNumber = AnimeRecentWatchedService.CheckRecentWatched(Episodes.Select(x => x.Id).FirstOrDefault());

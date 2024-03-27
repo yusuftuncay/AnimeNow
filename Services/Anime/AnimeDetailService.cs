@@ -13,7 +13,7 @@ namespace AnimeNow.Services.Anime
         private string hostname = AnimePreferencesService.Get("hostname");
 
         //
-        public async Task<List<AnimeEpisode>> GetEpisodesAsync(string id)
+        public async Task<List<AnimeEpisode>> LoadEpisodesAsync(string id)
         {
             try
             {

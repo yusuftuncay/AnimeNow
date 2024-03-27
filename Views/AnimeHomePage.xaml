@@ -61,7 +61,7 @@
                 Margin="{Binding MarginRecentWatchedContent}"
                 IsEnabled="{Binding IsNotBusy}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:AnimeDetail_Episode">
+                    <DataTemplate x:DataType="models:AnimeEpisode">
 
                         <!-- Content -->
                         <ContentView>
