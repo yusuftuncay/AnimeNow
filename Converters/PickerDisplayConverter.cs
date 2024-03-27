@@ -1,5 +1,5 @@
 ﻿using AnimeNow.Models;
-using AnimeNow.ViewModels;
+using AnimeNow.Models.Other;
 using System.Globalization;
 
 namespace AnimeNow.Converters
@@ -9,7 +9,7 @@ namespace AnimeNow.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is AniListAnimeDetail_Episode ep)
+            if (value is AnimeEpisode ep)
                 return $"Episode {ep.Number}";
             else if (value is Hostname hn)
                 return hn.Key;

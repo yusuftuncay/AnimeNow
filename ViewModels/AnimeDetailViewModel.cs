@@ -18,16 +18,16 @@ namespace AnimeNow.ViewModels
     {
         #region "Variables / Properties"
         [ObservableProperty]
-        public AniListAnime_Result result = new();
+        public AnimeHome_Result result = new();
         [ObservableProperty]
-        private ObservableCollection<AniListAnimeDetail_Episode> episodes = [];
+        private ObservableCollection<AnimeEpisode> episodes = [];
 
         private readonly AnimeDetailService AnimeDetailService = new();
         private readonly CancellationTokenSource CancellationTokenSource = new();
 
         // Play
         [ObservableProperty]
-        private AniListAnimeDetail_Episode selectedEpisode = new();
+        private AnimeEpisode selectedEpisode = new();
         [ObservableProperty]
         private string textPlayButton = "Play";
 
@@ -60,7 +60,7 @@ namespace AnimeNow.ViewModels
                 if (Episodes.Count != 0)
                     return;
 
-                Episodes = new(await AnimeDetailService.GetEpisodeInfoAsync(Result.Id));
+                Episodes = new(await AnimeDetailService.GetEpisodesAsync(Result.Id));
 
                 if (Episodes.Count == 0)
                 {
@@ -87,7 +87,7 @@ namespace AnimeNow.ViewModels
             }
         }
         [RelayCommand]
-        private void Init(AniListAnime_Result result)
+        private void Init(AnimeHome_Result result)
         {
             // Description Visibility
             if (PlatformService.GetPlatform() == 1)
@@ -148,7 +148,7 @@ namespace AnimeNow.ViewModels
 
         #region "Add To Collection"
         [RelayCommand]
-        private async Task AddToCollection(AniListAnime_Result result)
+        private async Task AddToCollection(AnimeHome_Result result)
         {
             string animeFile = Path.Combine(AnimeDirectoryService.CollectionDirectory, $"{result.Id}.json");
 

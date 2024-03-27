@@ -11,14 +11,14 @@ namespace AnimeNow.Services.Anime
         private string hostname = AnimePreferencesService.Get("hostname");
 
         //
-        public async Task<AniListAnime> LoadAniListTrendingAnimeAsync()
+        public async Task<AnimeHome> LoadAniListTrendingAnimeAsync()
         {
             try
             {
-                var response = await httpClient.GetFromJsonAsync<AniListAnime>($"{hostname}/meta/anilist/trending?perPage=24");
+                var response = await httpClient.GetFromJsonAsync<AnimeHome>($"{hostname}/meta/anilist/trending?perPage=24");
                 if (response != null)
                     return response;
-                return new AniListAnime();
+                return new AnimeHome();
             }
             catch (Exception ex)
             {
@@ -28,14 +28,14 @@ namespace AnimeNow.Services.Anime
         }
 
         //
-        public async Task<AniListAnime> LoadAniListPopularAnimeAsync()
+        public async Task<AnimeHome> LoadAniListPopularAnimeAsync()
         {
             try
             {
-                var response = await httpClient.GetFromJsonAsync<AniListAnime>($"{hostname}/meta/anilist/popular?perPage=24");
+                var response = await httpClient.GetFromJsonAsync<AnimeHome>($"{hostname}/meta/anilist/popular?perPage=24");
                 if (response != null)
                     return response;
-                return new AniListAnime();
+                return new AnimeHome();
             }
             catch (Exception ex)
             {
@@ -45,14 +45,14 @@ namespace AnimeNow.Services.Anime
         }
 
         //
-        public async Task<AniListAnimeRecentEpisodes> LoadAniListAnimeRecentEpisodesEpisodesAsync()
+        public async Task<AnimeRecentEpisodes> LoadAniListAnimeRecentEpisodesEpisodesAsync()
         {
             try
             {
-                var response = await httpClient.GetFromJsonAsync<AniListAnimeRecentEpisodes>($"{hostname}/meta/anilist/recent-episodes?perPage=24");
+                var response = await httpClient.GetFromJsonAsync<AnimeRecentEpisodes>($"{hostname}/meta/anilist/recent-episodes?perPage=24");
                 if (response != null)
                     return response;
-                return new AniListAnimeRecentEpisodes();
+                return new AnimeRecentEpisodes();
             }
             catch (Exception ex)
             {

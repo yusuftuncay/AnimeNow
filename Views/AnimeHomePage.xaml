@@ -61,7 +61,7 @@
                 Margin="{Binding MarginRecentWatchedContent}"
                 IsEnabled="{Binding IsNotBusy}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:AniListAnimeDetail_Episode">
+                    <DataTemplate x:DataType="models:AnimeDetail_Episode">
 
                         <!-- Content -->
                         <ContentView>
@@ -141,7 +141,7 @@
                 ItemsLayout="HorizontalList"
                 IsVisible="{Binding IsNotBusy}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:AniListAnime_Result">
+                    <DataTemplate x:DataType="models:AnimeHome_Result">
 
                         <!-- Content -->
                         <ContentView>
@@ -215,7 +215,7 @@
                 IsVisible="{Binding IsNotBusy}"
                 Margin="10,0">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:AniListAnime_Result">
+                    <DataTemplate x:DataType="models:AnimeHome_Result">
 
                         <!-- Content -->
                         <ContentView>
@@ -288,7 +288,7 @@
                 Margin="10,0"
                 ItemsLayout="HorizontalList">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:AniListAnimeRecentEpisodes_Result">
+                    <DataTemplate x:DataType="models:AnimeRecentEpisodes_Result">
 
                         <!-- Content -->
                         <ContentView>

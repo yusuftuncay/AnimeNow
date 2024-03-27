@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace AnimeNow.Models
 {
-    public class AniListAnimeDetail
+    public class AnimeDetail
     {
         [JsonProperty("id")]
         [JsonPropertyName("id")]
@@ -11,7 +11,7 @@ namespace AnimeNow.Models
 
         [JsonProperty("title")]
         [JsonPropertyName("title")]
-        public AniListAnimeDetail_Title Title { get; set; }
+        public AnimeDetail_Title Title { get; set; }
 
         [JsonProperty("malId")]
         [JsonPropertyName("malId")]
@@ -63,11 +63,11 @@ namespace AnimeNow.Models
 
         [JsonProperty("startDate")]
         [JsonPropertyName("startDate")]
-        public AniListAnimeDetail_StartDate StartDate { get; set; }
+        public AnimeDetail_StartDate StartDate { get; set; }
 
         [JsonProperty("endDate")]
         [JsonPropertyName("endDate")]
-        public AniListAnimeDetail_EndDate EndDate { get; set; }
+        public AnimeDetail_EndDate EndDate { get; set; }
 
         [JsonProperty("totalEpisodes")]
         [JsonPropertyName("totalEpisodes")]
@@ -107,10 +107,10 @@ namespace AnimeNow.Models
 
         [JsonProperty("episodes")]
         [JsonPropertyName("episodes")]
-        public List<AniListAnimeDetail_Episode> Episodes { get; set; }
+        public List<AnimeDetail_Episode> Episodes { get; set; }
     }
 
-    public class AniListAnimeDetail_EndDate
+    public class AnimeDetail_EndDate
     {
         [JsonProperty("year")]
         [JsonPropertyName("year")]
@@ -125,7 +125,7 @@ namespace AnimeNow.Models
         public int? Day { get; set; }
     }
 
-    public class AniListAnimeDetail_Episode
+    public class AnimeDetail_Episode
     {
         [JsonProperty("id")]
         [JsonPropertyName("id")]
@@ -152,7 +152,7 @@ namespace AnimeNow.Models
         public DateTime? AirDate { get; set; }
     }
 
-    public class AniListAnimeDetail_StartDate
+    public class AnimeDetail_StartDate
     {
         [JsonProperty("year")]
         [JsonPropertyName("year")]
@@ -167,7 +167,7 @@ namespace AnimeNow.Models
         public int? Day { get; set; }
     }
 
-    public class AniListAnimeDetail_Title
+    public class AnimeDetail_Title
     {
         [JsonProperty("romaji")]
         [JsonPropertyName("romaji")]

@@ -14,7 +14,7 @@ namespace AnimeNow.ViewModels
     {
         #region "Variables / Properties"
         [ObservableProperty]
-        private ObservableCollection<AniListAnime_Result> favorites = [];
+        private ObservableCollection<AnimeHome_Result> favorites = [];
 
         // Element IsEnabled
         [ObservableProperty]
@@ -46,7 +46,7 @@ namespace AnimeNow.ViewModels
                         string json = File.ReadAllText(filePath);
 
                         // Deserialize the JSON data to AniListAnime_Result object
-                        AniListAnime_Result favorite = JsonConvert.DeserializeObject<AniListAnime_Result>(json)!;
+                        AnimeHome_Result favorite = JsonConvert.DeserializeObject<AnimeHome_Result>(json)!;
 
                         // Add the favorite to the collection
                         if (favorite != null)
@@ -73,7 +73,7 @@ namespace AnimeNow.ViewModels
 
         #region "Navigation"
         [RelayCommand]
-        private async Task GoToAnimeDetailPageAsync(AniListAnime_Result result)
+        private async Task GoToAnimeDetailPageAsync(AnimeHome_Result result)
         {
             await NavigationService.GoToAsync(nameof(AnimeDetailPage), true, "Result", result);
         }

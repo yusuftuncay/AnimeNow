@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace AnimeNow.Models
 {
-    public class AniListAnimeRecentEpisodes
+    public class AnimeRecentEpisodes
     {
         [JsonProperty("currentPage")]
         [JsonPropertyName("currentPage")]
@@ -15,10 +15,10 @@ namespace AnimeNow.Models
 
         [JsonProperty("results")]
         [JsonPropertyName("results")]
-        public List<AniListAnimeRecentEpisodes_Result> Results { get; set; }
+        public List<AnimeRecentEpisodes_Result> Results { get; set; }
     }
 
-    public class AniListAnimeRecentEpisodes_Result
+    public class AnimeRecentEpisodes_Result
     {
         [JsonProperty("id")]
         [JsonPropertyName("id")]
@@ -26,7 +26,7 @@ namespace AnimeNow.Models
 
         [JsonProperty("title")]
         [JsonPropertyName("title")]
-        public AniListAnimeRecentEpisodes_Title Title { get; set; }
+        public AnimeRecentEpisodes_Title Title { get; set; }
 
         [JsonProperty("image")]
         [JsonPropertyName("image")]
@@ -53,7 +53,7 @@ namespace AnimeNow.Models
         public string MalId { get; set; }
     }
 
-    public class AniListAnimeRecentEpisodes_Title
+    public class AnimeRecentEpisodes_Title
     {
         [JsonProperty("romaji")]
         [JsonPropertyName("romaji")]
@@ -67,6 +67,4 @@ namespace AnimeNow.Models
         [JsonPropertyName("native")]
         public string Native { get; set; }
     }
-
-
 }

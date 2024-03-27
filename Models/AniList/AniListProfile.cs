@@ -1,4 +1,4 @@
-﻿namespace AnimeNow.Models
+﻿namespace AnimeNow.Models.AniList
 {
     public class AniListProfile
     {

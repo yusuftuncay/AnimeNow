@@ -1,5 +1,6 @@
 ﻿using AnimeNow.Models;
 using System.Diagnostics;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace AnimeNow.Services.Anime
@@ -12,20 +13,22 @@ namespace AnimeNow.Services.Anime
         private string hostname = AnimePreferencesService.Get("hostname");
 
         //
-        public async Task<List<AniListAnimeDetail_Episode>> GetEpisodeInfoAsync(string id)
+        public async Task<List<AnimeEpisode>> GetEpisodesAsync(string id)
         {
             try
             {
-                var response = await httpClient.GetAsync($"{hostname}/meta/anilist/info/{id}?provider={provider.ToLower()}");
-                if (!response.IsSuccessStatusCode)
-                    return [];
+                //var response = await httpClient.GetAsync($"{hostname}/meta/anilist/episodes/{id}?provider={provider.ToLower()}");
+                //if (!response.IsSuccessStatusCode)
+                //    return [];
 
-                var data = await response.Content.ReadAsStringAsync();
+                //var data = await response.Content.ReadAsStringAsync();
 
-                // Parse the response body, only get the "episodes" property
-                using JsonDocument doc = JsonDocument.Parse(data);
-                return doc.RootElement.TryGetProperty("episodes", out JsonElement episodes)
-                    ? JsonSerializer.Deserialize<List<AniListAnimeDetail_Episode>>(episodes.GetRawText()) ?? [] : [];
+                //// Parse the response body, only get the "episodes" property
+                //using JsonDocument doc = JsonDocument.Parse(data);
+                //return doc.RootElement.TryGetProperty("episodes", out JsonElement episodes)
+                //    ? JsonSerializer.Deserialize<List<AniListAnimeDetail_Episode>>(episodes.GetRawText()) ?? [] : [];
+
+                return await httpClient.GetFromJsonAsync<List<AnimeEpisode>>($"{hostname}/meta/anilist/episodes/{id}?provider={provider.ToLower()}");
 
             }
             catch (Exception ex)

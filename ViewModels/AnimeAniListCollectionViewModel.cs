@@ -13,11 +13,11 @@ namespace AnimeNow.ViewModels
     {
         #region "Variables / Properties"
         [ObservableProperty]
-        private ObservableCollection<AnimeAniListCollection_Entry> watching = [];
+        private ObservableCollection<AniListCollection_Entry> watching = [];
         [ObservableProperty]
-        private ObservableCollection<AnimeAniListCollection_Entry> planning = [];
+        private ObservableCollection<AniListCollection_Entry> planning = [];
         [ObservableProperty]
-        private ObservableCollection<AnimeAniListCollection_Entry> completed = [];
+        private ObservableCollection<AniListCollection_Entry> completed = [];
 
         // RanOnce
         public static bool RanOnce;
@@ -41,7 +41,7 @@ namespace AnimeNow.ViewModels
             try
             {
                 // Initialize "RecentWatched" and "Collection" Directories
-                AnimeAniListCollection_Root data =  await AniListService.FetchAniListCollectionData();
+                AniListCollection_Root data =  await AniListService.FetchAniListCollectionData();
 
                 if (data != null && data.MediaListCollection.Lists.Count != 0)
                 {
@@ -50,9 +50,9 @@ namespace AnimeNow.ViewModels
                     Planning.Clear();
 
                     // Filter the lists with custom status
-                    List<AnimeAniListCollection_List> currentList = data.MediaListCollection.Lists.Where(x => x.Status == "CURRENT").ToList();
-                    List<AnimeAniListCollection_List> completedList = data.MediaListCollection.Lists.Where(x => x.Status == "COMPLETED").ToList();
-                    List<AnimeAniListCollection_List> planningList = data.MediaListCollection.Lists.Where(x => x.Status == "PLANNING").ToList();
+                    List<AniListCollection_List> currentList = data.MediaListCollection.Lists.Where(x => x.Status == "CURRENT").ToList();
+                    List<AniListCollection_List> completedList = data.MediaListCollection.Lists.Where(x => x.Status == "COMPLETED").ToList();
+                    List<AniListCollection_List> planningList = data.MediaListCollection.Lists.Where(x => x.Status == "PLANNING").ToList();
 
                     if (currentList.Count != 0)
                     {
@@ -105,7 +105,7 @@ namespace AnimeNow.ViewModels
 
         #region "Navigation"
         [RelayCommand]
-        private async Task GoToAnimeDetailPageAsync(AniListAnime_Result result)
+        private async Task GoToAnimeDetailPageAsync(AnimeHome_Result result)
         {
             await NavigationService.GoToAsync(nameof(AnimeDetailPage), true, "Result", result);
         }

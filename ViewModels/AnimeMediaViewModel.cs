@@ -16,13 +16,13 @@ namespace AnimeNow.ViewModels
     {
         #region "Variables / Properties"
         [ObservableProperty]
-        private AniListAnimeDetail_Episode selectedEpisode = new();
+        private AnimeEpisode selectedEpisode = new();
         [ObservableProperty]
-        private ObservableCollection<AniListAnimeDetail_Episode> episodes = [];
+        private ObservableCollection<AnimeEpisode> episodes = [];
         [ObservableProperty]
-        private AniListAnimeMedia_Header headers = new();
+        private AnimeMedia_Header headers = new();
         [ObservableProperty]
-        private ObservableCollection<AniListAnimeMedia_Source> sources = [];
+        private ObservableCollection<AnimeMedia_Source> sources = [];
 
         private readonly AnimeMediaService AnimeMediaService = new();
         private readonly AnimeDetailService AnimeDetailService = new();
@@ -60,7 +60,7 @@ namespace AnimeNow.ViewModels
                 // GetEpisodeInfo
                 Headers = await AnimeMediaService.LoadHeaderAsync(SelectedEpisode.Id);
                 Sources = new(await AnimeMediaService.LoadSourceAsync(SelectedEpisode.Id));
-                Episodes = new(await AnimeDetailService.GetEpisodeInfoAsync(SelectedEpisode.Id));
+                Episodes = new(await AnimeDetailService.GetEpisodesAsync(SelectedEpisode.Id));
 
                 // Set Default Quality
                 var sources = Sources.Where(x => x.Quality == "default").Select(x => x.Url).FirstOrDefault();
@@ -129,7 +129,7 @@ namespace AnimeNow.ViewModels
                 Sources = new(await AnimeMediaService.LoadSourceAsync(nextEpisodeId));
 
                 // Get Episode Info
-                Episodes = new(await AnimeDetailService.GetEpisodeInfoAsync(AnimePreferencesService.Get("selected-anime-id")));
+                Episodes = new(await AnimeDetailService.GetEpisodesAsync(AnimePreferencesService.Get("selected-anime-id")));
                 SelectedEpisode = Episodes.Where(x => x.Id == nextEpisodeId).FirstOrDefault();
 
                 // Set Quality

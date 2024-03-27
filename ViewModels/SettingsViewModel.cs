@@ -1,4 +1,5 @@
-﻿using AnimeNow.Models;
+﻿using AnimeNow.Models.AniList;
+using AnimeNow.Models.Other;
 using AnimeNow.Services.AniList;
 using AnimeNow.Services.Anime;
 using CommunityToolkit.Maui.Alerts;

@@ -1,4 +1,5 @@
 ﻿using AnimeNow.Models;
+using AnimeNow.Models.AniList;
 using AnimeNow.Services.Anime;
 using AnimeNow.ViewModels;
 using AnimeNow.Views;
@@ -104,7 +105,7 @@ namespace AnimeNow.Services.AniList
         #endregion
 
         #region "Fetch AniList Collection Data"
-        public static async Task<AnimeAniListCollection_Root> FetchAniListCollectionData()
+        public static async Task<AniListCollection_Root> FetchAniListCollectionData()
         {
             string token = AnimePreferencesService.Get("token");
 
@@ -147,7 +148,7 @@ namespace AnimeNow.Services.AniList
             var graphQLHttpClient = new GraphQLHttpClient(endpoint, new NewtonsoftJsonSerializer());
             graphQLHttpClient.HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-            var schema = await graphQLHttpClient.SendQueryAsync<AnimeAniListCollection_Root>(new GraphQLRequest { Query = query });
+            var schema = await graphQLHttpClient.SendQueryAsync<AniListCollection_Root>(new GraphQLRequest { Query = query });
 
             return schema.Data;
         }

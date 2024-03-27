@@ -13,7 +13,7 @@ namespace AnimeNow.ViewModels
     {
         #region "Variables / Properties"
         [ObservableProperty]
-        private ObservableCollection<AniListAnime_Result> searchResult = [];
+        private ObservableCollection<AnimeHome_Result> searchResult = [];
 
         private readonly AnimeSearchService searchService = new();
 
@@ -34,10 +34,10 @@ namespace AnimeNow.ViewModels
 
             try
             {
-                AniListAnime searchResult = await searchService.GetSearchResultAsync(input);
+                AnimeHome searchResult = await searchService.GetSearchResultAsync(input);
 
                 if (searchResult.Results != null)
-                    foreach (AniListAnime_Result item in searchResult.Results)
+                    foreach (AnimeHome_Result item in searchResult.Results)
                         SearchResult.Add(item);
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace AnimeNow.ViewModels
 
         #region "Navigation"
         [RelayCommand]
-        private static async Task AnimeDetailPageAsync(AniListAnime_Result result)
+        private static async Task AnimeDetailPageAsync(AnimeHome_Result result)
         {
             await NavigationService.GoToAsync(nameof(AnimeDetailPage), true, "Result", result);
         }

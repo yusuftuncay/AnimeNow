@@ -3,29 +3,29 @@ using System.Text.Json.Serialization;
 
 namespace AnimeNow.Models
 {
-    public class AniListAnimeMedia
+    public class AnimeMedia
     {
         [JsonProperty("headers")]
         [JsonPropertyName("headers")]
-        public AniListAnimeMedia_Header Headers { get; set; }
+        public AnimeMedia_Header Headers { get; set; }
 
         [JsonProperty("sources")]
         [JsonPropertyName("sources")]
-        public List<AniListAnimeMedia_Source> Sources { get; set; }
+        public List<AnimeMedia_Source> Sources { get; set; }
 
         [JsonProperty("download")]
         [JsonPropertyName("download")]
         public string Download { get; set; }
     }
 
-    public class AniListAnimeMedia_Header
+    public class AnimeMedia_Header
     {
         [JsonProperty("Referer")]
         [JsonPropertyName("Referer")]
         public string Referer { get; set; }
     }
 
-    public class AniListAnimeMedia_Source
+    public class AnimeMedia_Source
     {
         [JsonProperty("url")]
         [JsonPropertyName("url")]

@@ -39,7 +39,7 @@
             Margin="10,0"
             ItemsLayout="VerticalGrid, 2">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:AniListAnime_Result">
+                <DataTemplate x:DataType="models:AnimeHome_Result">
 
                     <ContentView>
                         <Border

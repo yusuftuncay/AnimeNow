@@ -7,7 +7,7 @@ namespace AnimeNow.Services.Anime
     public partial class AnimeRecentWatchedService : ObservableObject
     {
         #region "Save In RecentWatched"
-        public static void SaveInRecentWatched(AniListAnimeDetail_Episode episode)
+        public static void SaveInRecentWatched(AnimeEpisode episode)
         {
             string animeTitle = episode.Id[..episode.Id.LastIndexOf("-episode-")]; // Example: shingeki-no-kyojin
             int episodeNumber = Convert.ToInt32(episode.Id[(episode.Id.LastIndexOf('-') + 1)..]); // Example: 22
@@ -34,7 +34,7 @@ namespace AnimeNow.Services.Anime
                 SaveAnime(episode);
             }
         }
-        static void SaveAnime(AniListAnimeDetail_Episode episode)
+        static void SaveAnime(AnimeEpisode episode)
         {
             string animePath = Path.Combine(AnimeDirectoryService.RecentWatchedDirectory, $"{episode.Id}.json");
 

@@ -14,13 +14,13 @@ namespace AnimeNow.ViewModels
     {
         #region "Variables / Properties"
         [ObservableProperty]
-        private ObservableCollection<AniListAnime_Result> trending = [];
+        private ObservableCollection<AnimeHome_Result> trending = [];
         [ObservableProperty]
-        private ObservableCollection<AniListAnime_Result> popular = [];
+        private ObservableCollection<AnimeHome_Result> popular = [];
         [ObservableProperty]
-        private ObservableCollection<AniListAnimeDetail_Episode> recentWatched = [];
+        private ObservableCollection<AnimeDetail_Episode> recentWatched = [];
         [ObservableProperty]
-        private ObservableCollection<AniListAnimeRecentEpisodes_Result> recentEpisodes = [];
+        private ObservableCollection<AnimeRecentEpisodes_Result> recentEpisodes = [];
 
         private readonly AnimeHomeService homeService = new();
         private readonly CancellationTokenSource CancellationTokenSource = new();
@@ -68,7 +68,7 @@ namespace AnimeNow.ViewModels
                     if (Popular.Count != 0)
                         Popular.Clear();
                     if (popular.Results != null) // Check
-                        foreach (AniListAnime_Result row in popular.Results)
+                        foreach (AnimeHome_Result row in popular.Results)
                             Popular.Add(row);
                 }
                 catch (Exception) { }
@@ -79,7 +79,7 @@ namespace AnimeNow.ViewModels
                     if (Trending.Count != 0)
                         Trending.Clear();
                     if (trending.Results != null) // Check
-                        foreach (AniListAnime_Result row in trending.Results)
+                        foreach (AnimeHome_Result row in trending.Results)
                             Trending.Add(row);
                 }
                 catch (Exception) { }
@@ -90,7 +90,7 @@ namespace AnimeNow.ViewModels
                     if (RecentEpisodes.Count != 0)
                         RecentEpisodes.Clear();
                     if (recentEpisodes.Results != null) // Check
-                        foreach (AniListAnimeRecentEpisodes_Result row in recentEpisodes.Results)
+                        foreach (AnimeRecentEpisodes_Result row in recentEpisodes.Results)
                             RecentEpisodes.Add(row);
                 }
                 catch (Exception) { }
@@ -142,7 +142,7 @@ namespace AnimeNow.ViewModels
                         string json = File.ReadAllText(filePath);
 
                         // Deserialize the JSON data to AniListAnime_Result object
-                        AniListAnimeDetail_Episode file = JsonConvert.DeserializeObject<AniListAnimeDetail_Episode>(json)!;
+                        AnimeDetail_Episode file = JsonConvert.DeserializeObject<AnimeDetail_Episode>(json)!;
 
                         // Add the favorite to the collection
                         if (file != null)
@@ -161,7 +161,7 @@ namespace AnimeNow.ViewModels
             try
             {
                 // Get info
-                AniListAnimeDetail_Episode episode = RecentWatched.Where(x => x.Id == episodeId).FirstOrDefault()!;
+                AnimeDetail_Episode episode = RecentWatched.Where(x => x.Id == episodeId).FirstOrDefault()!;
 
                 // Alert
                 bool answer = await Shell.Current.CurrentPage.DisplayAlert("", "Delete this episode?", "Yes", "No");
@@ -197,12 +197,12 @@ namespace AnimeNow.ViewModels
 
         #region "Navigation"
         [RelayCommand]
-        private async Task GoToAnimeDetailPageAsync(AniListAnime_Result result)
+        private async Task GoToAnimeDetailPageAsync(AnimeHome_Result result)
         {
             await NavigationService.GoToAsync(nameof(AnimeDetailPage), true, "Result", result);
         }
         [RelayCommand]
-        private async Task PlayRecentWatchedAnimeAsync(AniListAnimeDetail_Episode selectedEpisode)
+        private async Task PlayRecentWatchedAnimeAsync(AnimeDetail_Episode selectedEpisode)
         {
             await NavigationService.GoToAsync(nameof(AnimeMediaPage), false, "SelectedEpisode", selectedEpisode);
         }

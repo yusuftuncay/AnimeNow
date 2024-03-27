@@ -11,18 +11,18 @@ namespace AnimeNow.Services.Anime
         private string hostname = AnimePreferencesService.Get("hostname");
 
         //
-        public async Task<AniListAnimeMedia_Header> LoadHeaderAsync(string id)
+        public async Task<AnimeMedia_Header> LoadHeaderAsync(string id)
         {
             try
             {
                 string data = await LoadEpisodeAsync(id);
 
-                AniListAnimeMedia AniListAnimeMedia = JsonSerializer.Deserialize<AniListAnimeMedia>(data)!;
+                AnimeMedia AniListAnimeMedia = JsonSerializer.Deserialize<AnimeMedia>(data)!;
 
                 if (AniListAnimeMedia.Headers != null)
                     return AniListAnimeMedia.Headers;
 
-                return new AniListAnimeMedia_Header();
+                return new AnimeMedia_Header();
             }
             catch (Exception ex)
             {
@@ -30,13 +30,13 @@ namespace AnimeNow.Services.Anime
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<List<AniListAnimeMedia_Source>> LoadSourceAsync(string id)
+        public async Task<List<AnimeMedia_Source>> LoadSourceAsync(string id)
         {
             try
             {
                 string data = await LoadEpisodeAsync(id);
 
-                AniListAnimeMedia AniListAnimeMedia = JsonSerializer.Deserialize<AniListAnimeMedia>(data)!;
+                AnimeMedia AniListAnimeMedia = JsonSerializer.Deserialize<AnimeMedia>(data)!;
 
                 if (AniListAnimeMedia.Sources != null)
                     return AniListAnimeMedia.Sources;

@@ -11,14 +11,14 @@ namespace AnimeNow.Services.Anime
         private string hostname = AnimePreferencesService.Get("hostname");
 
         //
-        public async Task<AniListAnime> GetSearchResultAsync(string input)
+        public async Task<AnimeHome> GetSearchResultAsync(string input)
         {
             try
             {
                 if (input == null)
-                    return new AniListAnime();
+                    return new AnimeHome();
 
-                return await httpClient.GetFromJsonAsync<AniListAnime>($"{hostname}/meta/anilist/advanced-search?query={input}&perPage=12") ?? new AniListAnime();
+                return await httpClient.GetFromJsonAsync<AnimeHome>($"{hostname}/meta/anilist/advanced-search?query={input}&perPage=12") ?? new AnimeHome();
             }
             catch (Exception ex)
             {
