@@ -83,10 +83,8 @@ namespace AnimeNow.ViewModels
                 Providers.Add("Zoro");
 
                 // Initialize HostValues
-                Hostnames.Add(new Hostname { Key = "Host 1", Value = "https://api.consumet.org" });
-                Hostnames.Add(new Hostname { Key = "Host 2", Value = "https://c.delusionz.xyz" });
-                Hostnames.Add(new Hostname { Key = "Host 3", Value = "https://march-api1.vercel.app" });
-                Hostnames.Add(new Hostname { Key = "Host 4", Value = "https://e.tuncay.be" });
+                Hostnames.Add(new Hostname { Key = "Host 1", Value = "https://api-consumet-org-sigma-two.vercel.app" });
+                Hostnames.Add(new Hostname { Key = "Host 2", Value = "https://api-consumet-org-ojpd.onrender.com" });
                 Hostnames.Add(new Hostname { Key = "Custom", Value = "" });
 
                 // Preset Hostname
