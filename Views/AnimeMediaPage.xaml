@@ -60,7 +60,7 @@
             Text="{Binding SelectedEpisode.Title}"
             TextColor="White"
             Grid.Column="1"
-            HeightRequest="40"
+            HeightRequest="80"
             VerticalOptions="Start"
             HorizontalOptions="Center"
             Margin="32"

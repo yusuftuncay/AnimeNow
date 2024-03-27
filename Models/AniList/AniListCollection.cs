@@ -33,7 +33,7 @@
 
     public class AniListCollection_Media
     {
-        public int? IdMal { get; set; }
+        public int? Id { get; set; }
         public int? Episodes { get; set; }
         public AniListCollection_Title Title { get; set; }
         public string Description { get; set; }
@@ -42,8 +42,9 @@
 
     public class AniListCollection_CoverImage
     {
-        public string Large { get; set; }
         public string Medium { get; set; }
+        public string Large { get; set; }
+        public string ExtraLarge { get; set; }
     }
 
     public class AniListCollection_Title

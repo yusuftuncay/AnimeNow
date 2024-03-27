@@ -105,8 +105,25 @@ namespace AnimeNow.ViewModels
 
         #region "Navigation"
         [RelayCommand]
-        private async Task GoToAnimeDetailPageAsync(AnimeHome_Result result)
+        private async Task GoToAnimeDetailPageAsync(AniListCollection_Entry r)
         {
+            // Parse the data to the AnimeHome_Result model
+            AnimeHome_Result result = new()
+            {
+                Id = r.Media.Id.ToString(),
+                Title = new()
+                {
+                    Romaji = r.Media.Title.Romaji,
+                    English = r.Media.Title.English,
+                    Native = r.Media.Title.Native,
+                    UserPreferred = r.Media.Title.UserPreferred
+                },
+                Image = r.Media.CoverImage.ExtraLarge,
+                Description = r.Media.Description,
+                TotalEpisodes = r.Media.Episodes
+            };
+
+            // Navigate to the AnimeDetailPage
             await NavigationService.GoToAsync(nameof(AnimeDetailPage), true, "Result", result);
         }
         #endregion

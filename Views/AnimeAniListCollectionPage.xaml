@@ -64,7 +64,7 @@
                                 StrokeShape="RoundRectangle 22">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer
-                                        Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                        Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeAniListCollectionViewModel}}}"
                                         CommandParameter="{Binding .}"
                                         NumberOfTapsRequired="1" />
                                 </Border.GestureRecognizers>
@@ -147,7 +147,7 @@
                             StrokeShape="RoundRectangle 22">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer
-                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeAniListCollectionViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     NumberOfTapsRequired="1" />
                             </Border.GestureRecognizers>
@@ -227,7 +227,7 @@
                             StrokeShape="RoundRectangle 22">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer
-                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeAniListCollectionViewModel}}}"
                                     CommandParameter="{Binding .}"
                                     NumberOfTapsRequired="1" />
                             </Border.GestureRecognizers>

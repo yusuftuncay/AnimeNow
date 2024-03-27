@@ -126,7 +126,7 @@ namespace AnimeNow.Services.AniList
                             status
                             progress
                             media {{
-                                idMal
+                                id
                                 episodes
                                 title {{
                                     romaji
@@ -138,6 +138,7 @@ namespace AnimeNow.Services.AniList
                                 coverImage {{
                                     medium
                                     large
+                                    extraLarge
                                 }}
                             }}
                         }}
