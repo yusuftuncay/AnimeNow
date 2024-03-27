@@ -32,46 +32,52 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:AniListAnime_Result">
 
-                        <!-- Border -->
-                        <Border
-                            Margin="10"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 22">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeLocalCollectionViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    NumberOfTapsRequired="1" />
-                            </Border.GestureRecognizers>
-                            <Grid HeightRequest="240">
+                        <!-- Content -->
+                        <ContentView>
+                            <Border
+                                Margin="10"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 22">
+                                
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeLocalCollectionViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </Border.GestureRecognizers>
+                                
+                                <Grid HeightRequest="240">
 
-                                <Image
-                                    Source="{Binding Image}"
-                                    Aspect="AspectFill">
-                                    <Image.Shadow>
-                                        <Shadow />
-                                    </Image.Shadow>
-                                </Image>
+                                    <!-- Image -->
+                                    <Image
+                                        Source="{Binding Image}"
+                                        Aspect="AspectFill">
+                                        <Image.Shadow>
+                                            <Shadow />
+                                        </Image.Shadow>
+                                    </Image>
 
-                                <Grid>
-                                    <Grid.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#00000000" Offset="0.0"/>
-                                            <GradientStop Color="#CC000000" Offset="1.0"/>
-                                        </LinearGradientBrush>
-                                    </Grid.Background>
-                                    <Label
-                                        Text="{Binding Title.UserPreferred}"
-                                        TextColor="White"
-                                        LineBreakMode="WordWrap"
-                                        VerticalOptions="End"
-                                        HorizontalTextAlignment="Center"
-                                        WidthRequest="140"
-                                        Padding="20"/>
+                                    <!-- Title -->
+                                    <Grid>
+                                        <Grid.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#00000000" Offset="0.0"/>
+                                                <GradientStop Color="#CC000000" Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </Grid.Background>
+                                        <Label
+                                            Text="{Binding Title.UserPreferred}"
+                                            TextColor="White"
+                                            LineBreakMode="WordWrap"
+                                            VerticalOptions="End"
+                                            HorizontalTextAlignment="Center"
+                                            WidthRequest="140"
+                                            Padding="20"/>
+                                    </Grid>
+
                                 </Grid>
-
-                            </Grid>
-                        </Border>
+                            </Border>
+                        </ContentView>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

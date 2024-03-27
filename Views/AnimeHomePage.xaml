@@ -52,7 +52,6 @@
                 VerticalOptions="End">
                 Recent Watched
             </Label>
-
             <!-- RecentWatched Content -->
             <CollectionView
                 Grid.Row="1"
@@ -65,59 +64,61 @@
                     <DataTemplate x:DataType="models:AniListAnimeDetail_Episode">
 
                         <!-- Content -->
-                        <Border
-                            Margin="10"
-                            WidthRequest="220"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 22">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding PlayRecentWatchedAnimeCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    NumberOfTapsRequired="1" />
-                            </Border.GestureRecognizers>
-
-                            <Grid>
-                                <!-- Image -->
-                                <Image Source="{Binding Image}" Aspect="AspectFill" />
+                        <ContentView>
+                            <Border
+                                Margin="10"
+                                WidthRequest="220"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 22">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding PlayRecentWatchedAnimeCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </Border.GestureRecognizers>
 
                                 <Grid>
-                                    <Grid.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#00000000" Offset="0.0"/>
-                                            <GradientStop Color="#CC000000" Offset="1.0"/>
-                                        </LinearGradientBrush>
-                                    </Grid.Background>
-
+                                    <!-- Image -->
+                                    <Image Source="{Binding Image}" Aspect="AspectFill" />
                                     <!-- Label -->
-                                    <Label
-                                        Text="{Binding Number, StringFormat='Episode {0}'}"
-                                        TextColor="White"
-                                        VerticalOptions="End"
-                                        HorizontalTextAlignment="Center"
-                                        WidthRequest="140"
-                                        Padding="20"/>
+                                    <Grid>
+                                        <Grid.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#00000000" Offset="0.0"/>
+                                                <GradientStop Color="#CC000000" Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </Grid.Background>
+                                        <Label
+                                            Text="{Binding Number, StringFormat='Episode {0}'}"
+                                            TextColor="White"
+                                            VerticalOptions="End"
+                                            HorizontalTextAlignment="Center"
+                                            WidthRequest="140"
+                                            Padding="20"/>
+                                    </Grid>
+
+                                    <!-- ImageButton -->
+                                    <ImageButton
+                                        Source="close.png"
+                                        HeightRequest="28"
+                                        WidthRequest="28"
+                                        Margin="12"
+                                        Padding="0"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="Start"
+                                        Opacity="0.38"
+                                        Command="{Binding DeleteEpisodeFromRecentWatchedCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                        CommandParameter="{Binding Id}">
+                                        <ImageButton.Shadow>
+                                            <Shadow />
+                                        </ImageButton.Shadow>
+                                    </ImageButton>
+                                
                                 </Grid>
 
-                                <!-- ImageButton -->
-                                <ImageButton
-                                    Source="close.png"
-                                    HeightRequest="28"
-                                    WidthRequest="28"
-                                    Margin="12"
-                                    Padding="0"
-                                    VerticalOptions="Start"
-                                    HorizontalOptions="Start"
-                                    Opacity="0.38"
-                                    Command="{Binding DeleteEpisodeFromRecentWatchedCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
-                                    CommandParameter="{Binding Id}">
-                                    <ImageButton.Shadow>
-                                        <Shadow />
-                                    </ImageButton.Shadow>
-                                </ImageButton>
-                            </Grid>
-
-                        </Border>
+                            </Border>
+                        </ContentView>
+                        
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
@@ -143,42 +144,45 @@
                     <DataTemplate x:DataType="models:AniListAnime_Result">
 
                         <!-- Content -->
-                        <Border
-                            Margin="10"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 22">
+                        <ContentView>
+                            <Border
+                                Margin="10"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 22">
+                                
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </Border.GestureRecognizers>
 
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    NumberOfTapsRequired="1" />
-                            </Border.GestureRecognizers>
-
-                            <Grid WidthRequest="130">
-                                <!-- Image -->
-                                <Image Source="{Binding Image}" Aspect="AspectFill" />
-
-                                <Grid>
-                                    <Grid.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#00000000" Offset="0.0"/>
-                                            <GradientStop Color="#CC000000" Offset="1.0"/>
-                                        </LinearGradientBrush>
-                                    </Grid.Background>
-
+                                <Grid WidthRequest="130">
+                                    <!-- Image -->
+                                    <Image Source="{Binding Image}" Aspect="AspectFill" />
                                     <!-- Label -->
-                                    <Label
-                                        Text="{Binding Title.UserPreferred}"
-                                        TextColor="White"
-                                        LineBreakMode="WordWrap"
-                                        VerticalOptions="End"
-                                        HorizontalTextAlignment="Center"
-                                        WidthRequest="140"
-                                        Padding="20"/>
+                                    <Grid>
+                                        <Grid.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#00000000" Offset="0.0"/>
+                                                <GradientStop Color="#CC000000" Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </Grid.Background>
+
+                                        <Label
+                                            Text="{Binding Title.UserPreferred}"
+                                            TextColor="White"
+                                            LineBreakMode="WordWrap"
+                                            VerticalOptions="End"
+                                            HorizontalTextAlignment="Center"
+                                            WidthRequest="140"
+                                            Padding="20"/>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Border>
+                                
+                            </Border>
+                        </ContentView>
+                        
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
@@ -214,42 +218,44 @@
                     <DataTemplate x:DataType="models:AniListAnime_Result">
 
                         <!-- Content -->
-                        <Border
-                            Margin="10"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 22">
+                        <ContentView>
+                            <Border
+                                Margin="10"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 22">
 
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    NumberOfTapsRequired="1" />
-                            </Border.GestureRecognizers>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </Border.GestureRecognizers>
 
-                            <Grid WidthRequest="130">
-                                <!-- Image -->
-                                <Image Source="{Binding Image}" Aspect="AspectFill" />
-
-                                <Grid>
-                                    <Grid.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#00000000" Offset="0.0"/>
-                                            <GradientStop Color="#CC000000" Offset="1.0"/>
-                                        </LinearGradientBrush>
-                                    </Grid.Background>
-
+                                <Grid WidthRequest="130">
+                                    <!-- Image -->
+                                    <Image Source="{Binding Image}" Aspect="AspectFill" />
                                     <!-- Label -->
-                                    <Label
-                                        Text="{Binding Title.UserPreferred}"
-                                        TextColor="White"
-                                        LineBreakMode="WordWrap"
-                                        VerticalOptions="End"
-                                        HorizontalTextAlignment="Center"
-                                        WidthRequest="140"
-                                        Padding="20"/>
+                                    <Grid>
+                                        <Grid.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#00000000" Offset="0.0"/>
+                                                <GradientStop Color="#CC000000" Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </Grid.Background>
+                                        <Label
+                                            Text="{Binding Title.UserPreferred}"
+                                            TextColor="White"
+                                            LineBreakMode="WordWrap"
+                                            VerticalOptions="End"
+                                            HorizontalTextAlignment="Center"
+                                            WidthRequest="140"
+                                            Padding="20"/>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Border>
+                                
+                            </Border>
+                        </ContentView>
+                    
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
@@ -285,42 +291,44 @@
                     <DataTemplate x:DataType="models:AniListAnimeRecentEpisodes_Result">
 
                         <!-- Content -->
-                        <Border
-                            Margin="10"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 22">
+                        <ContentView>
+                            <Border
+                                Margin="10"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 22">
 
-                            <Grid WidthRequest="280">
-                                <!-- Image -->
-                                <Image Source="{Binding Image}" Aspect="AspectFill" />
-
-                                <Grid>
-                                    <Grid.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#00000000" Offset="0.0"/>
-                                            <GradientStop Color="#CC000000" Offset="1.0"/>
-                                        </LinearGradientBrush>
-                                    </Grid.Background>
-
+                                <Grid WidthRequest="280">
+                                    <!-- Image -->
+                                    <Image Source="{Binding Image}" Aspect="AspectFill" />
                                     <!-- Label -->
-                                    <Label
-                                        Text="{Binding Title.English}"
-                                        TextColor="White"
-                                        LineBreakMode="WordWrap"
-                                        VerticalOptions="Start"
-                                        HorizontalTextAlignment="Center"
-                                        Padding="12"
-                                        Margin="0"/>
-                                    <Label Text="{Binding EpisodeTitle}"
-                                        TextColor="White"
-                                        TextDecorations="Underline"
-                                        LineBreakMode="WordWrap"
-                                        VerticalOptions="End"
-                                        HorizontalTextAlignment="Center"
-                                        Padding="12"/>
+                                    <Grid>
+                                        <Grid.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#00000000" Offset="0.0"/>
+                                                <GradientStop Color="#CC000000" Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </Grid.Background>
+                                        <Label
+                                            Text="{Binding Title.English}"
+                                            TextColor="White"
+                                            LineBreakMode="WordWrap"
+                                            VerticalOptions="Start"
+                                            HorizontalTextAlignment="Center"
+                                            Padding="12"
+                                            Margin="0"/>
+                                        <Label Text="{Binding EpisodeTitle}"
+                                            TextColor="White"
+                                            TextDecorations="Underline"
+                                            LineBreakMode="WordWrap"
+                                            VerticalOptions="End"
+                                            HorizontalTextAlignment="Center"
+                                            Padding="12"/>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Border>
+                                
+                            </Border>
+                        </ContentView>
+                    
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
@@ -344,6 +352,7 @@
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="CenterAndExpand">
             </ActivityIndicator>
+            
         </Grid>
 
     </ScrollView>

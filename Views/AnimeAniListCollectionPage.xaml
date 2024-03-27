@@ -57,50 +57,54 @@
                     <DataTemplate x:DataType="models:AnimeAniListCollection_Entry">
 
                         <!-- Content -->
-                        <Border
-                            Margin="10"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 22">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    NumberOfTapsRequired="1" />
-                            </Border.GestureRecognizers>
+                        <ContentView>
+                            <Border
+                                Margin="10"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 22">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding GoToAnimeDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AnimeHomeViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </Border.GestureRecognizers>
 
-                            <Grid WidthRequest="130">
-                                <Image
-                                    Source="{Binding Media.CoverImage.Medium}"
-                                    Aspect="AspectFill" />
+                                <Grid WidthRequest="130">
+                                    <!-- Image -->
+                                    <Image
+                                        Source="{Binding Media.CoverImage.Medium}"
+                                        Aspect="AspectFill" />
 
-                                <Grid Background="#9E000000">
-                                    <Label
-                                        TextColor="White"
-                                        LineBreakMode="WordWrap"
-                                        HorizontalTextAlignment="Center"
-                                        WidthRequest="140"
-                                        Padding="20">
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{}{0} / {1}">
-                                                <Binding Path="Progress" />
-                                                <Binding Path="Media.Episodes" />
-                                            </MultiBinding>
-                                        </Label.Text>
-                                    </Label>
-                                    <Label
-                                        Text="{Binding Media.Title.UserPreferred}"
-                                        TextColor="White"
-                                        LineBreakMode="WordWrap"
-                                        VerticalOptions="End"
-                                        HorizontalTextAlignment="Center"
-                                        WidthRequest="140"
-                                        Padding="20"/>
+                                    <!-- Title -->
+                                    <Grid Background="#9E000000">
+                                        <Label
+                                            TextColor="White"
+                                            LineBreakMode="WordWrap"
+                                            HorizontalTextAlignment="Center"
+                                            WidthRequest="140"
+                                            Padding="20">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0} / {1}">
+                                                    <Binding Path="Progress" />
+                                                    <Binding Path="Media.Episodes" />
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                        <Label
+                                            Text="{Binding Media.Title.UserPreferred}"
+                                            TextColor="White"
+                                            LineBreakMode="WordWrap"
+                                            VerticalOptions="End"
+                                            HorizontalTextAlignment="Center"
+                                            WidthRequest="140"
+                                            Padding="20"/>
+                                    </Grid>
+
                                 </Grid>
 
-                            </Grid>
-
-                        </Border>
-
+                            </Border>
+                        </ContentView>
+                    
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 

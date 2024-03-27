@@ -8,15 +8,15 @@ namespace AnimeNow.Services.Anime
     {
         //
         private readonly HttpClient httpClient = new();
-        private readonly string provider = AnimePreferencesService.Get("provider");
-        private readonly string hostname = AnimePreferencesService.Get("hostname");
+        private string provider = AnimePreferencesService.Get("provider");
+        private string hostname = AnimePreferencesService.Get("hostname");
 
         //
         public async Task<List<AniListAnimeDetail_Episode>> GetEpisodeInfoAsync(string id)
         {
             try
             {
-                var response = await httpClient.GetAsync($"{hostname}/meta/anilist/info/{id}?provider={provider}");
+                var response = await httpClient.GetAsync($"{hostname}/meta/anilist/info/{id}?provider={provider.ToLower()}");
                 if (!response.IsSuccessStatusCode)
                     return [];
 

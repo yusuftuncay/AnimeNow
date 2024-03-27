@@ -8,7 +8,7 @@ namespace AnimeNow.Services.Anime
     {
         //
         private readonly HttpClient httpClient = new();
-        private readonly string hostname = AnimePreferencesService.Get("hostname");
+        private string hostname = AnimePreferencesService.Get("hostname");
 
         //
         public async Task<AniListAnime> LoadAniListTrendingAnimeAsync()
